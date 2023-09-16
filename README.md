@@ -9,13 +9,14 @@ This won't be required forever, but the app's built-in docking functionality isn
 Follow the steps below to get started.
 
 1. Download 12Bar and DesktopCoral:  
+https://github.com/Futur3Sn0w/12Bar/releases/latest  
 https://www.donationcoder.com/software/mouser/other-windows-apps/desktopcoral
 
-2. Install and open DesktopCoral's options  
+3. Install and open DesktopCoral's options  
    Change the options to match below:  
 ![image](https://github.com/Futur3Sn0w/12Bar/assets/18166632/2cfbbd93-2b98-4e32-a4ee-f8b45156cf4e)
 
-3. Run 12Bar!  
+4. Run 12Bar!  
    Running 12Bar before opening DesktopCoral will cause issues, so be sure to run it first!
 
 
