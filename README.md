@@ -1,7 +1,11 @@
 # 12Bar  
 TODO: Write howto/explainer :P  
-For now, click Releases on the sidebar to download, or click Wiki at the top to view some more information!
+For now, ~~click Releases on the sidebar to download~~ (see below), or click Wiki at the top to view some more information!
 <hr>
+
+## Update (09/16)
+From the Windows Customization Hub Discord:   
+![image](https://github.com/Futur3Sn0w/12Bar/assets/18166632/469ce25a-85de-4a61-93b3-df3ba7a60f8d)  
 
 ## Installation:
 **Note:** The current version of 12Bar **requires** DesktopCoral to be installed to use it within apps.  
