@@ -22,8 +22,6 @@ https://www.donationcoder.com/software/mouser/other-windows-apps/desktopcoral
 
 
 ## Options Popup
-You can change options within 12Bar or exit it from the options popup, shown below:  
-![image](https://github.com/Futur3Sn0w/12Bar/assets/18166632/8eedffe2-a371-4aac-851f-519a16944e4b)
-
-## Tip:
-Hold the **Ctrl** key and click the refresh button in the options popup to open DevTools!
+You can change options within 12Bar or exit it from the options popup, which you can open at any time from the tray icon!  
+Double-click it to jump to settings, or right click for more options.  
+![image](https://github.com/Futur3Sn0w/12Bar/assets/18166632/ee53d36f-fda4-48e4-ae28-938a581e6902)
