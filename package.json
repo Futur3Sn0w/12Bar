@@ -1,0 +1,41 @@
+{
+  "name": "12bar",
+  "version": "0.1.1",
+  "description": "An Electron-based replica of the leaked Windows 12 topchrome UI.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "start-debug": "electron . --inspect",
+    "build": " electron-builder --win --x64",
+    "rebuild": "npm rebuild --runtime=electron --target=9.6.7 --disturl=https://atom.io/download/atom-shell --abi=48"
+  },
+  "author": "Futur3Sn0w",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^26.2.1",
+    "electron-rebuild": "^3.2.9"
+  },
+  "dependencies": {
+    "@lwahonen/ffi-napi": "^4.0.12",
+    "@lwahonen/ref-napi": "^4.0.8",
+    "active-win": "^8.1.0",
+    "electron-acrylic-window": "^0.5.11",
+    "ffi-napi": "^4.0.3",
+    "file-icon-info": "^1.1.1",
+    "jquery": "^3.7.1",
+    "node-gyp-build": "^4.6.1",
+    "ps-list": "^8.1.1",
+    "ref-napi": "^3.0.3",
+    "robotjs": "^0.6.0",
+    "wifi-name": "^3.1.1",
+    "win-audio": "^2.0.2"
+  },
+  "build": {
+    "directories": {
+      "output": "../build"
+    },
+    "win": {
+      "icon": "./12bar.png"
+    }
+  }
+}

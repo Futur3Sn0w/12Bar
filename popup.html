@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12Bar Options</title>
+
+    <link rel="stylesheet" href="css.css">
+    <link rel="stylesheet" href="popup_ex.css">
+    <link rel="stylesheet" href="globals.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+</head>
+
+<body class="loaded" popup>
+    <div class="userArea">
+        <div class="username"></div>
+        <div class="buttons">
+            <div class="button btn1" btnTxt="Windows Settings"></div>
+            <!-- <div class="button btn2" btnTxt="12Bar Options"></div> -->
+            <div class="button btn2 refreshBtn" btnTxt="Refresh 12Bar"></div>
+            <div class="button btn3" btnTxt="Power Options"></div>
+            <!-- <div class="button btn4" btnTxt="Fourth button"></div> -->
+        </div>
+        <div class="userImgDiv">
+            <img src="" class="userImg">
+        </div>
+    </div>
+
+    <!-- <div class="titleBar">
+        12Bar Options
+        <div class="popupCloseBtn"></div>
+    </div> -->
+    <div class="btnContainer">
+        <label for="">Appearance:</label>
+        <div class="themeBtn fiBtn frontItem" label="App theme">
+            <div class="icon"></div>
+            <input type="checkbox" class="btnCB themeCB">
+        </div>
+        <div class="backgroundBtn fiBtn frontItem" label="Show background color">
+            <div class="icon"></div>
+            <input type="checkbox" class="btnCB backgroundCB">
+        </div>
+
+        <label for="">Item options:</label>
+        <div class="searchToggleBtn fiBtn frontItem" label="Animated search icon">
+            <div class="icon"></div>
+            <input type="checkbox" class="btnCB searchToggleCB">
+        </div>
+        <div class="tempUnitBtn fiBtn frontItem" label="Temperature unit">
+            <div class="icon"></div>
+            <div class="tuTemp"></div>
+            <input type="checkbox" class="btnCB tempUnitCB">
+        </div>
+        <label for="">Item visibility:</label>
+        <div class="copilotBtn fiBtn frontItem" label="Copilot button">
+            <img class="icon" src="resc/imgs/copilot.svg">
+            <input type="checkbox" class="btnCB copilotCB">
+        </div>
+        <div class="userimgBtn fiBtn frontItem" label="User menu">
+            <div class="icon" style="font-family: SegoeSystemIcns;"></div>
+            <input type="checkbox" class="btnCB userimgCB">
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+
+</html>

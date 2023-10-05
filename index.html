@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="css.css">
+    <link rel="stylesheet" href="globals.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
+
+<body style="background-color: transparent !important;">
+    <div class="backgroundFill"></div>
+    <div class="main-sect left">
+        <div class="weather frontItem">
+            <img class="wicon" id="wicon">
+            <div class="wtemp" id="wtemp">Loading...</div>
+            <div class="wfeel"></div>
+        </div>
+        <div class="copilot frontItem">
+            <img src="resc/imgs/copilot.svg" alt="">
+        </div>
+    </div>
+    <div class="main-sect center">
+        <div class="mainBar">
+            <div class="search">
+                <div class="icn">
+                    
+                    <img src="resc/imgs/search/light.svg" class="searchImg">
+                </div>
+                <div class="searchBox">Type here to search</div>
+            </div>
+            <div class="appIcn">
+                <img class="aiImg" src="">
+            </div>
+            <div class="appLabel">
+                <p class="title"></p>
+                <div class="sep">-</div>
+                <p class="name"></p>
+            </div>
+        </div>
+    </div>
+    <div class="main-sect right">
+        <div class="dropDownBtn fiBtn frontItem">
+            <p></p>
+        </div>
+        <div class="statIcons frontItem">
+            <div class="wifiIcon"></div>
+            <div class="volIcon"></div>
+            <div class="batteryIcn"></div>
+        </div>
+        <div class="timeDate frontItem" id="timeDate">
+            <div class="date"></div>
+            <div class="time"></div>
+        </div>
+        <div class="profileBtn frontItem">
+            <img src="" class="profileImg">
+        </div>
+    </div>
+
+    <script src="renderer.js"></script>
+    <!-- <script src="appbar.js"></script> -->
+    <!-- <script src="temp.js"></script> -->
+
+</body>
+
+</html>

@@ -1,0 +1,84 @@
+/* I usually hate doing globals because it just feels
+janky, but for maximum realism; here we go! */
+
+:root {
+    --global-text: #FFF;
+
+    --btn-back: rgba(255, 255, 255, .05);
+    --btn-border: rgba(255, 255, 255, .05);
+    --btn-top-border: rgba(255, 255, 255, .1);
+
+    --main-pill: rgba(22, 22, 22, 0.75);
+    --app-icon-plate: rgba(255, 255, 255, 0.1);
+    --app-label-plate: black;
+    --app-label-text: white;
+    --surface-text: white;
+
+    --popup-back: hsl(0, 0%, 96%);
+    --popup-btn: white;
+    --popup-btn-checked: #047CD6;
+    --popup-btn-hover: #f7f7f7;
+    --popup-btn-border: #EDEDED;
+    --popup-btn-border-bottom: #D3D3D3;
+    --popup-footer: hsl(0, 0%, 93%);
+    --popup-surface-text: black;
+}
+
+.dark-theme {
+    --main-pill: rgba(22, 22, 22, 0.75);
+    --app-icon-plate: rgba(255, 255, 255, 0.1);
+    --app-label-plate: black;
+    --app-label-text: white;
+    --surface-text: white;
+
+    --btn-back: rgba(255, 255, 255, .05);
+    --btn-border: rgba(255, 255, 255, .05);
+    --btn-top-border: rgba(255, 255, 255, .1);
+
+    --popup-back: rgb(42, 42, 42);
+    --popup-btn: #373737;
+    --popup-btn-checked: #047CD6;
+    --popup-btn-hover: #3C3C3C;
+    --popup-btn-border: #444444;
+    --popup-btn-border-bottom: #484848;
+    --popup-footer: #202020;
+    --popup-surface-text: white;
+    --imgFilter: brightness(100) contrast(0) saturate(100) brightness(100);
+}
+
+.light-theme {
+    --main-pill: rgba(255, 255, 255, .75);
+    --app-icon-plate: rgba(0, 0, 0, 0.1);
+    --app-label-plate: white;
+    --app-label-text: black;
+    --surface-text: black;
+
+    --btn-back: rgba(255, 255, 255, .05);
+    --btn-border: rgba(255, 255, 255, .025);
+    --btn-top-border: rgba(255, 255, 255, .075);
+
+    --popup-back: hsl(0, 0%, 96%);
+    --popup-btn: white;
+    --popup-btn-checked: #047CD6;
+    --popup-btn-hover: #f7f7f7;
+    --popup-btn-border: #EDEDED;
+    --popup-btn-border-bottom: #D3D3D3;
+    --popup-footer: hsl(0, 0%, 93%);
+    --popup-surface-text: black;
+    --imgFilter: brightness(100) contrast(0) saturate(100) brightness(100) invert(1);
+}
+
+@font-face {
+    font-family: FluentIcons-Fill;
+    src: url('resc/fonts/FluentSystemIcons-Filled.ttf');
+}
+
+@font-face {
+    font-family: FluentIcons-Reg;
+    src: url('resc/fonts/FluentSystemIcons-Regular.ttf');
+}
+
+@font-face {
+    font-family: SegoeSystemIcns;
+    src: url('resc/fonts/SegoeIcons.ttf');
+}
