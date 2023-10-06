@@ -5,9 +5,10 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "start-with-warnings": "electron . --trace-warnings",
     "start-debug": "electron . --inspect",
     "build": " electron-builder --win --x64",
-    "rebuild": "npm rebuild --runtime=electron --target=9.6.7 --disturl=https://atom.io/download/atom-shell --abi=48"
+    "rebuild": ".\\node_modules\\.bin\\electron-rebuild.cmd"
   },
   "author": "Futur3Sn0w",
   "license": "ISC",
@@ -20,6 +21,7 @@
     "@lwahonen/ref-napi": "^4.0.8",
     "active-win": "^8.1.0",
     "electron-acrylic-window": "^0.5.11",
+    "electron-store": "^8.1.0",
     "ffi-napi": "^4.0.3",
     "file-icon-info": "^1.1.1",
     "jquery": "^3.7.1",
@@ -35,7 +37,7 @@
       "output": "../build"
     },
     "win": {
-      "icon": "./12bar.png"
+      "icon": "resc/branding/brand_png.png"
     }
   }
 }

@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain, screen, Tray, Menu, nativeImage } = require('electron')
 const { setVibrancy } = require('electron-acrylic-window')
+const Store = require('electron-store');
 const robot = require('robotjs')
 const $ = require('jquery');
 const fs = require('fs');
@@ -10,6 +11,7 @@ const fii = require('file-icon-info');
 const wifiName = require('wifi-name');
 const audio = require('win-audio').speaker;
 const { exec } = require('child_process');
+const store = new Store();
 
 let childWindow = null;
 let keyprompt;
@@ -50,7 +52,7 @@ function createWindow() {
         //     disableOnBlur: false // (default)
         // },
         show: false,
-        icon: __dirname + '/12bar.ico',
+        icon: __dirname + '/resc/branding/brand_ico.ico',
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false
@@ -96,8 +98,9 @@ function optionsPopup(themeTBA) {
             x: sWidth - 305,
             y: 55,
             autoHideMenuBar: true,
-            // skipTaskbar: true,
+            skipTaskbar: true,
             show: false,
+            alwaysOnTop: true,
             titleBarStyle: 'hidden',
             resizable: false,
             vibrancy: {
@@ -105,7 +108,7 @@ function optionsPopup(themeTBA) {
                 disableOnBlur: false, // (default)
                 theme: themeTBA
             },
-            icon: __dirname + '/12bar.ico',
+            icon: __dirname + '/resc/branding/brand_ico.ico',
             webPreferences: {
                 nodeIntegration: true,
                 contextIsolation: false,
@@ -241,7 +244,7 @@ app.whenReady().then(() => {
         { label: 'Relaunch', type: 'normal', click: () => { app.quit(0); app.relaunch(0) } },
         { label: 'Quit', type: 'normal', click: () => { app.quit() } }
     ])
-    const icon = nativeImage.createFromPath('12bar.ico')
+    const icon = nativeImage.createFromPath('resc/branding/brand_ico.ico')
     const tray = new Tray(icon)
     tray.setContextMenu(trayMenu)
     tray.on('double-click', () => {
@@ -268,53 +271,67 @@ app.on('will-quit', function () {
 // ipcMain events region begins -----
 
 mainInt = setInterval(() => {
-    getFocusedAppName().then(({ name, title }) => {
-        if (name !== 'Electron'
-            && name !== 'Windows Start Experience Host'
-            && name !== 'Windows Shell Experience Host'
-            && title !== 'System tray overflow window.'
-            && title !== 'PowerToys.PowerLauncher'
-            && name !== 'Windows Default Lock Screen'
-            && name !== '12bar'
-            && title !== '12bar'
-            && title !== 'UnlockingWindow'
-            && title !== 'Desktop Coral'
-            && title !== 'Task View'
-            && title !== 'Snap Assist'
-            && name !== 'Rainmeter desktop customization tool'
-            && title !== 'Window Dialog'
-            && title !== 'Program Manager'
-            && title !== 'Search'
-            && name !== "Application Frame Host") {
-            getFocusedAppIcon().then(iconPath => {
-                // console.log(iconPath);
-                fii.getIcon(iconPath, data => {
-                    win.webContents.send('icon-data', data);
-                })
-            })
-            win.webContents.send('winTitle', name, title);
+    getActiveWindow().then((windowInfo) => {
+        if (windowInfo) {
+            if (windowInfo.owner.name == 'Windows Explorer' || windowInfo.owner.name == '') {
+                if (windowInfo.title == '') {
+                    win.webContents.send('desktop');
+                }
+            } else {
+                win.webContents.send('no-desktop');
+            }
+
+            // I HIGHLY recommend leaving this DISABLED:
+            // console.log(windowInfo);
+            // win.webContents.send('volumeLevel', volumeLevel);
+
+            getFocusedAppName().then(({ name, title }) => {
+                if (name !== 'Electron'
+                    && name !== 'Windows Start Experience Host'
+                    && name !== 'Windows Shell Experience Host'
+                    && title !== 'System tray overflow window.'
+                    && title !== 'PowerToys.PowerLauncher'
+                    && name !== 'Windows Default Lock Screen'
+                    && name !== '12bar'
+                    && title !== '12bar'
+                    && title !== 'UnlockingWindow'
+                    && title !== 'Desktop Coral'
+                    && title !== 'Task View'
+                    && title !== 'Snap Assist'
+                    && name !== 'Rainmeter desktop customization tool'
+                    && title !== 'Window Dialog'
+                    && title !== 'Program Manager'
+                    && title !== 'Search'
+                    && name !== "Application Frame Host") {
+                    getFocusedAppIcon().then(iconPath => {
+                        // console.log(iconPath);
+                        fii.getIcon(iconPath, data => {
+                            win.webContents.send('icon-data', data);
+                        })
+                    })
+                    win.webContents.send('winTitle', name, title);
+                }
+            });
         }
     });
 
     setWindowPermSize();
 
-    win.webContents.send('backColor', "#" + robot.getPixelColor(2, 51));
-
-    getActiveWindow().then((windowInfo) => {
-        if (windowInfo.owner.name == 'Windows Explorer' || windowInfo.owner.name == '') {
-            if (windowInfo.title == '') {
-                win.webContents.send('desktop');
-            }
-        } else {
-            win.webContents.send('no-desktop');
-        }
-
-        // I HIGHLY recommend leaving this DISABLED:
-        // console.log(windowInfo);
-        // win.webContents.send('volumeLevel', volumeLevel);
-    });
-
+    backgroundFillState();
 }, 500);
+
+function backgroundFillState() {
+    bgFillState = store.get('bg-state')
+    if (bgFillState == true) {
+        win.webContents.send('backColor', "#" + robot.getPixelColor(2, 51));
+    } else {
+        win.webContents.send('backColor', "#" + robot.getPixelColor(2, 49));
+    }
+}
+
+ipcMain.on('set-bg-state', (_event, state) => {
+    store.set('bg-state', state);
+})
 
 audio.events.on('change', (volume) => {
     // volumeLevel = audio.get();
@@ -401,7 +418,7 @@ ipcMain.on('ctrlHotkey', (event, key) => {
     if (key == 'r') {
         win.reload()
         win.webContents.send('checkBackground')
-        win.webContents.send('backColor', "#" + robot.getPixelColor(2, 51));
+        backgroundFillState();
     }
 })
 

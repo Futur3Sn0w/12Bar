@@ -87,7 +87,7 @@ $('.tempUnitBtn').on('click', function () {
     ipcRenderer.send('ctrlHotkey', 'r');
 })
 
-$('.backgroundBtn').on('click', function () {
+$('.backgroundCB').on('click', function () {
     ipcRenderer.send('toggleBackground');
     localStorage.setItem('background', $('.backgroundCB').is(':checked'))
 })

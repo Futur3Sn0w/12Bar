@@ -64,6 +64,7 @@ $(window).on('load', function () {
     } else if (bg == 'true') {
         $('.backgroundFill').addClass('enabled')
     }
+    ipcRenderer.send('set-bg-state', $('.backgroundFill').hasClass('enabled'));
 
     if (userMenu == null) {
         localStorage.setItem('userMenuPref', true);
@@ -470,6 +471,7 @@ ipcRenderer.on('toggleUserMenu', function () {
 
 ipcRenderer.on('toggleBackground', (_event) => {
     $('.backgroundFill').toggleClass('enabled');
+    ipcRenderer.send('set-bg-state', $('.backgroundFill').hasClass('enabled'));
 })
 
 ipcRenderer.on('toggleSearch', function () {

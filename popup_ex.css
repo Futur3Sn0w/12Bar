@@ -219,6 +219,7 @@ body {
 }
 
 .fiBtn .icon {
+    pointer-events: none !important;
     transition: .1s;
     position: relative;
     z-index: 1;
@@ -313,7 +314,6 @@ input[type="checkbox"]:checked {
 
 .copilotBtn .icon {
     width: 19px;
-
 }
 
 .copilotBtn.hide {
