@@ -25,9 +25,9 @@ janky, but for maximum realism; here we go! */
 }
 
 .dark-theme {
-    --main-pill: rgba(22, 22, 22, 0.75);
+    --main-pill: #222222bf;
     --app-icon-plate: rgba(255, 255, 255, 0.1);
-    --app-label-plate: black;
+    --app-label-plate: #222222;
     --app-label-text: white;
     --surface-text: white;
 
@@ -47,13 +47,13 @@ janky, but for maximum realism; here we go! */
 }
 
 .light-theme {
-    --main-pill: rgba(255, 255, 255, .75);
+    --main-pill: #ffffffbf;
     --app-icon-plate: rgba(0, 0, 0, 0.1);
-    --app-label-plate: white;
+    --app-label-plate: #fefefe;
     --app-label-text: black;
     --surface-text: black;
 
-    --btn-back: rgba(255, 255, 255, .05);
+    --btn-back: rgba(255, 255, 255, .25);
     --btn-border: rgba(255, 255, 255, .025);
     --btn-top-border: rgba(255, 255, 255, .075);
 

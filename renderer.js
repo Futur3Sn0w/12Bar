@@ -1,4 +1,4 @@
-const { ipcRenderer, ipcMain } = require('electron')
+const { ipcRenderer, ipcMain, net } = require('electron')
 const { exec } = require('child_process');
 const os = require('os');
 const $ = require('jquery');
@@ -123,11 +123,14 @@ ipcRenderer.on('network-info', (_event, netInf) => {
     if (conType == 'Wi-Fi') {
         $('.wifiIcon').show();
         $('.wifiIcon').text('')
-    } else if (conType == 'Ethernet') {
+        $('.wifiIcon').removeClass('eth');
+    } else if (conType.indexOf('Ethernet') !== 1) {
         $('.wifiIcon').show();
+        $('.wifiIcon').addClass('eth');
         $('.wifiIcon').text('')
     } else {
         $('.wifiIcon').hide();
+        $('.wifiIcon').removeClass('eth');
     }
 })
 
@@ -302,7 +305,9 @@ function changeTextColor() {
     var rgb = backgroundColor.match(/\d+/g);
     var brightness = (299 * rgb[0] + 587 * rgb[1] + 114 * rgb[2]) / 1000;
     var textColor = brightness > 128 ? "black" : "white";
+    var shadowColor = brightness > 128 ? "#00000010" : "transparent";
     $(':root').css('--global-text', textColor);
+    $(':root').css('--shadow-color', shadowColor);
 }
 
 $('.statIcons').on('click', function () {

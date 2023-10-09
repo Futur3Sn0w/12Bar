@@ -1,7 +1,8 @@
-const { app, BrowserWindow, ipcMain, screen, Tray, Menu, nativeImage } = require('electron')
+const { app, BrowserWindow, crashReporter, ipcMain, screen, Tray, Menu, nativeImage } = require('electron')
 const { setVibrancy } = require('electron-acrylic-window')
 const Store = require('electron-store');
 const robot = require('robotjs')
+const nut = require('@nut-tree/nut-js')
 const $ = require('jquery');
 const fs = require('fs');
 const path = require('path');
@@ -15,7 +16,6 @@ const store = new Store();
 
 let childWindow = null;
 let keyprompt;
-let usertilemenu;
 let win
 let volumeLevel
 let sWidth
@@ -23,6 +23,7 @@ let mainInt
 let cwinContSize
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true';
+crashReporter.start({ uploadToServer: false });
 
 // Window defs region begins -----
 
@@ -135,13 +136,13 @@ function optionsPopup(themeTBA) {
     childWindow.webContents.on("before-input-event", (event, input) => {
         childWindow.webContents.send('before-input-event', input)
     });
-
-    ipcMain.on('cwin-ready', function () {
-        childWindow.webContents.executeJavaScript(`document.body.scrollHeight`).then((result) => {
-            childWindow.setSize(300, result + 8, true)
-        })
-    })
 }
+
+ipcMain.on('cwin-ready', function () {
+    childWindow.webContents.executeJavaScript(`document.body.scrollHeight`).then((result) => {
+        childWindow.setSize(300, result + 8, true)
+    })
+})
 
 // Window defs region ends -----
 
@@ -247,6 +248,7 @@ app.whenReady().then(() => {
     const icon = nativeImage.createFromPath('resc/branding/brand_ico.ico')
     const tray = new Tray(icon)
     tray.setContextMenu(trayMenu)
+    tray.setToolTip('12Bar')
     tray.on('double-click', () => {
         win.webContents.send('get-theme')
     });
@@ -317,17 +319,36 @@ mainInt = setInterval(() => {
 
     setWindowPermSize();
 
-    backgroundFillState();
+    backgroundFillState().then((hex) => {
+        win.webContents.send('backColor', hex)
+    }).catch((error) => {
+        // console.error('Error updating background fill state:', error);
+    });
 }, 500);
 
-function backgroundFillState() {
+async function backgroundFillState() {
     bgFillState = store.get('bg-state')
     if (bgFillState == true) {
-        win.webContents.send('backColor', "#" + robot.getPixelColor(2, 51));
+        const color = await nut.screen.colorAt(new nut.Point(2, 51));
+        const rgb = color.R + ',' + color.G + ',' + color.B;
+        const hex = '#' + rgb.split(',').map(x => parseInt(x).toString(16).padStart(2, '0')).join('');
+        return hex;
     } else {
-        win.webContents.send('backColor', "#" + robot.getPixelColor(2, 49));
+        const color = await nut.screen.colorAt(new nut.Point(2, 49));
+        const rgb = color.R + ',' + color.G + ',' + color.B;
+        const hex = '#' + rgb.split(',').map(x => parseInt(x).toString(16).padStart(2, '0')).join('');
+        return hex;
     }
 }
+
+// function backgroundFillState() {
+//     bgFillState = store.get('bg-state')
+//     if (bgFillState == true) {
+//         win.webContents.send('backColor', "#" + robot.getPixelColor(2, 51));
+//     } else {
+//         win.webContents.send('backColor', "#" + robot.getPixelColor(2, 49));
+//     }
+// }
 
 ipcMain.on('set-bg-state', (_event, state) => {
     store.set('bg-state', state);
