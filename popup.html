@@ -18,6 +18,9 @@
 <body class="loaded" popup>
     <div class="userArea">
         <div class="username"></div>
+        <div class="userImgDiv">
+            <img src="" class="userImg">
+        </div>
         <div class="buttons">
             <div class="button btn1" btnTxt="Windows Settings"></div>
             <!-- <div class="button btn2" btnTxt="12Bar Options"></div> -->
@@ -25,9 +28,7 @@
             <div class="button btn3" btnTxt="Power Options"></div>
             <!-- <div class="button btn4" btnTxt="Fourth button"></div> -->
         </div>
-        <div class="userImgDiv">
-            <img src="" class="userImg">
-        </div>
+
     </div>
 
     <!-- <div class="titleBar">
@@ -35,34 +36,43 @@
         <div class="popupCloseBtn"></div>
     </div> -->
     <div class="btnContainer">
-        <label for="">Appearance:</label>
-        <div class="themeBtn fiBtn frontItem" label="App theme">
-            <div class="icon"></div>
-            <input type="checkbox" class="btnCB themeCB">
+        <div class="btnSubCont bsc1">
+            <label for="" num="2">Appearance</label>
+            <div class="themeBtn fiBtn frontItem restartable" label="App theme">
+                <div class="icon"></div>
+                <input type="checkbox" class="btnCB themeCB">
+            </div>
+            <div class="backgroundBtn fiBtn frontItem" label="Show background color">
+                <div class="icon"></div>
+                <input type="checkbox" class="btnCB backgroundCB">
+            </div>
         </div>
-        <div class="backgroundBtn fiBtn frontItem" label="Show background color">
-            <div class="icon"></div>
-            <input type="checkbox" class="btnCB backgroundCB">
+        <div class="btnSubCont bsc2">
+            <label for="" num="3">Item options</label>
+            <div class="searchToggleBtn fiBtn frontItem" label="Animated search icon">
+                <div class="icon"></div>
+                <input type="checkbox" class="btnCB searchToggleCB">
+            </div>
+            <div class="searchProvBtn fiBtn frontItem restartable" label="Use alternate search provider">
+                <div class="icon"></div>
+                <input type="checkbox" class="btnCB searchProvCB">
+            </div>
+            <div class="tempUnitBtn fiBtn frontItem restartable" label="Temperature unit">
+                <div class="icon"></div>
+                <div class="tuTemp"></div>
+                <input type="checkbox" class="btnCB tempUnitCB">
+            </div>
         </div>
-
-        <label for="">Item options:</label>
-        <div class="searchToggleBtn fiBtn frontItem" label="Animated search icon">
-            <div class="icon"></div>
-            <input type="checkbox" class="btnCB searchToggleCB">
-        </div>
-        <div class="tempUnitBtn fiBtn frontItem" label="Temperature unit">
-            <div class="icon"></div>
-            <div class="tuTemp"></div>
-            <input type="checkbox" class="btnCB tempUnitCB">
-        </div>
-        <label for="">Item visibility:</label>
-        <div class="copilotBtn fiBtn frontItem" label="Copilot button">
-            <img class="icon" src="resc/imgs/copilot.svg">
-            <input type="checkbox" class="btnCB copilotCB">
-        </div>
-        <div class="userimgBtn fiBtn frontItem" label="User menu">
-            <div class="icon" style="font-family: SegoeSystemIcns;"></div>
-            <input type="checkbox" class="btnCB userimgCB">
+        <div class="btnSubCont bsc3">
+            <label for="" num="2">Item visibility</label>
+            <div class="copilotBtn fiBtn frontItem" label="Copilot button">
+                <img class="icon" src="resc/imgs/copilot.svg">
+                <input type="checkbox" class="btnCB copilotCB">
+            </div>
+            <div class="userimgBtn fiBtn frontItem" label="User menu">
+                <div class="icon" style="font-family: SegoeSystemIcns;"></div>
+                <input type="checkbox" class="btnCB userimgCB">
+            </div>
         </div>
     </div>
     <script src="popup.js"></script>

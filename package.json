@@ -1,6 +1,6 @@
 {
   "name": "12bar",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "An Electron-based replica of the leaked Windows 12 topchrome UI.",
   "main": "main.js",
   "scripts": {
@@ -17,6 +17,7 @@
     "electron-rebuild": "^3.2.9"
   },
   "dependencies": {
+    "@electron/remote": "^2.0.12",
     "@lwahonen/ffi-napi": "^4.0.12",
     "@lwahonen/ref-napi": "^4.0.8",
     "@nut-tree/nut-js": "^3.1.2",

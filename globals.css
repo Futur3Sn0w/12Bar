@@ -41,6 +41,7 @@ janky, but for maximum realism; here we go! */
     --popup-btn-hover: #3C3C3C;
     --popup-btn-border: #444444;
     --popup-btn-border-bottom: #484848;
+    --popup-sect: #ffffff10;
     --popup-footer: #202020;
     --popup-surface-text: white;
     --imgFilter: brightness(100) contrast(0) saturate(100) brightness(100);
@@ -63,6 +64,7 @@ janky, but for maximum realism; here we go! */
     --popup-btn-hover: #f7f7f7;
     --popup-btn-border: #EDEDED;
     --popup-btn-border-bottom: #D3D3D3;
+    --popup-sect: #e7e6e6;
     --popup-footer: hsl(0, 0%, 93%);
     --popup-surface-text: black;
     --imgFilter: brightness(100) contrast(0) saturate(100) brightness(100) invert(1);

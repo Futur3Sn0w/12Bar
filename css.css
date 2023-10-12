@@ -98,7 +98,7 @@ body[popup] {
     font-size: 20px;
 
     display: flex;
-    gap: 6px;
+    gap: 7px;
     align-items: center;
     padding: 0 8px;
 
@@ -112,7 +112,7 @@ body[popup] {
 }
 
 .volIcon {
-    font-size: 19px;
+    font-size: 18px;
     font-family: SegoeSystemIcns !important;
 }
 
@@ -178,7 +178,7 @@ body[popup] {
     justify-content: center;
 }
 
-.frontItem::before {
+.frontItem:not(.restartable)::before {
     content: "";
     width: 100%;
     height: 100%;
@@ -189,30 +189,33 @@ body[popup] {
     transition: .2s;
     height: 40px;
 
-    border-radius: 4.5px;
+    border-radius: 5px;
 }
 
-.frontItem:hover::before {
+.frontItem:not(.restartable):hover::before {
     background-color: var(--btn-back);
     border-color: var(--btn-border);
     border-top-color: var(--btn-top-border);
 }
 
-.frontItem:active::before {
+.frontItem:not(.restartable):active::before {
     background-color: rgba(255, 255, 255, .1);
 }
 
 @keyframes shrinkOut {
     0% {
         transform: scale(1);
+        opacity: 1;
     }
 
     99% {
         transform: scale(.8);
+        opacity: 0;
     }
 
     100% {
         transform: scale(1);
+        opacity: 0;
     }
 }
 

@@ -7,6 +7,7 @@ var bg = localStorage.getItem('background');
 var lat = localStorage.getItem('locLat');
 var lon = localStorage.getItem('locLon');
 var themePreference = localStorage.getItem('themePreference');
+var altSearch = localStorage.getItem('altSearch');
 var searchPref = localStorage.getItem('searchPref');
 var tempUnit = localStorage.getItem('tempUnit');
 var userMenu = localStorage.getItem('userMenuPref');
@@ -66,6 +67,12 @@ $(window).on('load', function () {
     }
     ipcRenderer.send('set-bg-state', $('.backgroundFill').hasClass('enabled'));
 
+    if (altSearch == null) {
+        localStorage.setItem('altSearch', 'n');
+    } else if (altSearch == 'y') {
+        $('.mainBar').addClass('altSearch')
+    }
+
     if (userMenu == null) {
         localStorage.setItem('userMenuPref', true);
     } else if (userMenu == 'true') {
@@ -82,6 +89,8 @@ $(window).on('load', function () {
         localStorage.setItem('tempUnit', 'c');
     }
     checkKey();
+
+
 
     if (themePreference) {
         $(':root').addClass(themePreference);
@@ -311,23 +320,27 @@ function changeTextColor() {
 }
 
 $('.statIcons').on('click', function () {
-    ipcRenderer.send('winHotkey', 'a');
+    ipcRenderer.send('hotKey', 'command', 'a');
 })
 
 $('.timeDate').on('click', function () {
-    ipcRenderer.send('winHotkey', 'n');
+    ipcRenderer.send('hotKey', 'command', 'n');
 })
 
 $('.mainBar').on('click', function () {
-    ipcRenderer.send('winHotkey', 's');
+    if (altSearch == 'y') {
+        ipcRenderer.send('hotKey', 'alt', 'space');
+    } else {
+        ipcRenderer.send('hotKey', 'command', 's');
+    }
 })
 
 $('.weather').on('click', function () {
-    ipcRenderer.send('winHotkey', 'w');
+    ipcRenderer.send('hotKey', 'command', 'w');
 })
 
 $('.copilot').on('click', function () {
-    ipcRenderer.send('winHotkey', 'c');
+    ipcRenderer.send('hotKey', 'command', 'c');
 })
 
 $('.profileBtn').on('click', function () {

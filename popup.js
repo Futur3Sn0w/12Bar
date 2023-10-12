@@ -1,11 +1,13 @@
-const { ipcRenderer } = require('electron')
+const { shell, ipcRenderer } = require('electron')
 const $ = require('jquery');
+const remote = require('@electron/remote');
 var bg = localStorage.getItem('background');
 var themePreference = localStorage.getItem('themePreference');
 var searchPref = localStorage.getItem('searchPref');
 var userMenu = localStorage.getItem('userMenuPref');
 var tempUnit = localStorage.getItem('tempUnit');
 var userCopilot = localStorage.getItem('user-copilot');
+var altSearch = localStorage.getItem('altSearch');
 
 const os = require('os');
 
@@ -13,6 +15,7 @@ $(window).on('load', function () {
     var userImg = localStorage.getItem('userImgPath');
     var username = os.userInfo().username;
 
+    ipcRenderer.send('get-appver')
     ipcRenderer.send('checkCopilot');
 
     if (bg == 'true') {
@@ -46,13 +49,21 @@ $(window).on('load', function () {
         $('.copilotCB').attr('checked', true)
     }
 
+    if (altSearch == 'y') {
+        $('.searchProvCB').attr('checked', true)
+    }
+
     $('.userImg').attr('src', userImg);
     $('.username').text(username);
     if (themePreference) {
         $('.searchImg').attr('src', 'resc/imgs/search/' + themePreference.replace('-theme', '') + '.svg')
     }
 
-    ipcRenderer.send('cwin-ready');
+    ipcRenderer.send('cwin-ready', -8);
+})
+
+ipcRenderer.on('got-appver', (_event, ver) => {
+    $('.username').attr("label", ' v' + ver);
 })
 
 ipcRenderer.on('no-copilot', function () {
@@ -72,7 +83,7 @@ $('.refreshBtn').on('click', function () {
     if ($('.refreshBtn').hasClass('debug')) {
         ipcRenderer.send('devTools');
     } else {
-        ipcRenderer.send('ctrlHotkey', 'r');
+        ipcRenderer.send('hotKey', 'ctrl', 'r');
     }
 })
 
@@ -84,7 +95,7 @@ $('.tempUnitBtn').on('click', function () {
     } else if (newTempUnitPref == 'c') {
         $('.tempUnitBtn .tuTemp').text('°C');
     }
-    ipcRenderer.send('ctrlHotkey', 'r');
+    ipcRenderer.send('hotKey', 'ctrl', 'r');
 })
 
 $('.backgroundCB').on('click', function () {
@@ -112,6 +123,12 @@ $('.userimgBtn').on('click', function () {
     localStorage.setItem('userMenuPref', userMenuPref);
 });
 
+$('.searchProvCB').on('click', function () {
+    var newSearchProvPref = $('.searchProvCB').is(':checked') ? 'y' : 'n';
+    localStorage.setItem('altSearch', newSearchProvPref);
+    ipcRenderer.send('hotKey', 'ctrl', 'r');
+})
+
 $('.exitBtn').on('click', function () {
     ipcRenderer.send('exit');
 })
@@ -120,13 +137,12 @@ ipcRenderer.on("before-input-event", (event, input) => {
     localStorage.setItem('ctrl', input.control)
 });
 
-
 $('.resetBtn').on('click', function () {
     var ctrl = localStorage.getItem('ctrl')
     if (ctrl == 'true') {
         ipcRenderer.send('reset-app')
     } else {
-        alert('In order to prevent accidental presses, hold the Ctrl key before clicking this to reset 12bar.')
+        alert('In order to prevent accidental presses, hold the Ctrl key before clicking this to reset 12Bar.')
     }
 });
 
@@ -139,7 +155,7 @@ ipcRenderer.on('refresh', function () {
 })
 
 $('.btn1').on('click', function () {
-    ipcRenderer.send('winHotkey', 'i');
+    ipcRenderer.send('hotKey', 'command', 'i');
 })
 
 $('.btn2').on('click', function () {
@@ -152,6 +168,38 @@ $('.btn2').on('click', function () {
 
 $('.btn3').on('click', function () {
     ipcRenderer.send('power-dialog');
+})
+
+$('.btnSubCont label').on('click', function () {
+    if ($(this).parent().hasClass('expand')) {
+        $(this).parent().removeClass('expand');
+    } else {
+        $('.btnSubCont.expand').removeClass('expand');
+        $(this).parent().addClass('expand');
+    }
+    let newHeight;
+
+    // setTimeout(() => {
+    if ($('.btnSubCont').hasClass('expand')) {
+        newHeight = Math.round($(this).parent().height() - 28);
+    } else {
+        newHeight = -8;
+    }
+    ipcRenderer.send('cwin-ready', newHeight);
+    // }, 150);
+})
+
+$('.userImgDiv').on('mouseover', function () {
+    $('.userArea').addClass('uiHover')
+})
+
+$('.userImgDiv').on('mouseout', function () {
+    $('.userArea').removeClass('uiHover')
+
+})
+
+$('.userImgDiv').on('click', function () {
+    ipcRenderer.send('open-yourinfo');
 })
 
 ipcRenderer.on('before-input-event', (_event, input) => {

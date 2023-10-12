@@ -1,4 +1,4 @@
-const { app, BrowserWindow, crashReporter, ipcMain, screen, Tray, Menu, nativeImage } = require('electron')
+const { app, BrowserWindow, crashReporter, ipcMain, screen, shell, Tray, Menu, nativeImage } = require('electron')
 const { setVibrancy } = require('electron-acrylic-window')
 const Store = require('electron-store');
 const robot = require('robotjs')
@@ -119,9 +119,7 @@ function optionsPopup(themeTBA) {
         childWindow.once('ready-to-show', () => {
             childWindow.setPosition(sWidth - 305, 55, true)
             setVibrancy(childWindow, { effect: 'acrylic', disableOnBlur: false, theme: themeTBA })
-            childWindow.webContents.executeJavaScript(`document.body.scrollHeight`).then((result) => {
-                childWindow.setSize(300, result + 8, true)
-            })
+            // childWindow.setSize(300, 271, true)
             childWindow.show();
         });
         childWindow.on('close', () => {
@@ -132,16 +130,23 @@ function optionsPopup(themeTBA) {
         })
     } else {
         childWindow.show();
+        childWindow.webContents.openDevTools({
+            mode: 'detach'
+        })
     }
     childWindow.webContents.on("before-input-event", (event, input) => {
         childWindow.webContents.send('before-input-event', input)
     });
 }
 
-ipcMain.on('cwin-ready', function () {
-    childWindow.webContents.executeJavaScript(`document.body.scrollHeight`).then((result) => {
-        childWindow.setSize(300, result + 8, true)
-    })
+ipcMain.on('get-appver', (event) => {
+    event.reply('got-appver', app.getVersion());
+})
+
+ipcMain.on('cwin-ready', (_event, docHeight) => {
+    let ndh = docHeight + 250;
+    childWindow.setMinimumSize(300, ndh)
+    childWindow.setSize(300, ndh)
 })
 
 // Window defs region ends -----
@@ -260,6 +265,10 @@ app.whenReady().then(() => {
     setWindowPermSize();
     networkInfo();
 
+    screen.on('display-metrics-changed', function () {
+        setWindowPermSize();
+    })
+
     // Appbar function
     // initAppBar();
 })
@@ -317,13 +326,12 @@ mainInt = setInterval(() => {
         }
     });
 
-    setWindowPermSize();
-
     backgroundFillState().then((hex) => {
         win.webContents.send('backColor', hex)
     }).catch((error) => {
         // console.error('Error updating background fill state:', error);
     });
+    // setWindowPermSize();
 }, 500);
 
 async function backgroundFillState() {
@@ -340,15 +348,6 @@ async function backgroundFillState() {
         return hex;
     }
 }
-
-// function backgroundFillState() {
-//     bgFillState = store.get('bg-state')
-//     if (bgFillState == true) {
-//         win.webContents.send('backColor', "#" + robot.getPixelColor(2, 51));
-//     } else {
-//         win.webContents.send('backColor', "#" + robot.getPixelColor(2, 49));
-//     }
-// }
 
 ipcMain.on('set-bg-state', (_event, state) => {
     store.set('bg-state', state);
@@ -367,6 +366,11 @@ ipcMain.on('win-show', function () {
     win.show();
     // initAppBar();
     // setVibrancy(win, { effect: 'acrylic', disableOnBlur: false })
+})
+
+ipcMain.on('open-yourinfo', function () {
+    shell.openExternal('ms-settings:yourinfo')
+    childWindow.close();
 })
 
 ipcMain.on('getUserImage', (event, command) => {
@@ -435,14 +439,6 @@ ipcMain.on('toggleUserMenu', function () {
     win.webContents.send('toggleUserMenu');
 })
 
-ipcMain.on('ctrlHotkey', (event, key) => {
-    if (key == 'r') {
-        win.reload()
-        win.webContents.send('checkBackground')
-        backgroundFillState();
-    }
-})
-
 ipcMain.on('checkCopilot', function () {
     win.webContents.send('checkCopilot')
 })
@@ -494,8 +490,14 @@ ipcMain.on('oobe-complete', function () {
     app.relaunch(0);
 })
 
-ipcMain.on('winHotkey', (event, key) => {
-    robot.keyTap(key, ['command']);
+ipcMain.on('hotKey', (event, mod, key) => {
+    if (key == 'r') {
+        win.reload()
+        win.webContents.send('checkBackground')
+        backgroundFillState();
+    } else {
+        robot.keyTap(key, [mod]);
+    }
 })
 
 ipcMain.on('exit', function () {
@@ -561,7 +563,7 @@ function networkInfo() {
 }
 
 function setWindowPermSize() {
-    var sWidth2 = screen.getPrimaryDisplay().workAreaSize.width;
+    var sWidth2 = screen.getPrimaryDisplay().size.width;
     win.setContentSize(sWidth2, 50);
     win.setBounds(sWidth2, 50);
     win.setSize(sWidth2, 50, true);
@@ -572,6 +574,7 @@ function setWindowPermSize() {
         width: sWidth2,
         height: 50
     }]);
+    win.setPosition(0, 0);
 }
 
 async function getFocusedAppIcon() {
